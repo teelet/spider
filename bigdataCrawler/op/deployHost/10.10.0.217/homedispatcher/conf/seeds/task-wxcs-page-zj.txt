@@ -1,0 +1,11 @@
+http://wap.zjicity.com/wxcs/hangzhou/wxcs.3.jsp area=330100
+http://wap.zjicity.com/wxcs/huzhou/wxcs.3.jsp area=330500
+http://wap.zjicity.com/wxcs/jiaxing/wxcs.3.jsp area=330400
+http://wap.zjicity.com/wxcs/ningbo/wxcs.3.jsp area=330200
+http://wap.zjicity.com/wxcs/shaoxing/wxcs.3.jsp area=330600
+http://wap.zjicity.com/wxcs/taizhou/wxcs.3.jsp area=331000
+http://wap.zjicity.com/wxcs/wenzhou/wxcs.3.jsp area=330300
+http://wap.zjicity.com/wxcs/lishui/wxcs.3.jsp area=331100
+http://wap.zjicity.com/wxcs/jinhua/wxcs.3.jsp area=330700
+http://wap.zjicity.com/wxcs/zhoushan/wxcs.3.jsp area=330900
+http://wap.zjicity.com/wxcs/quzhou/wxcs.3.jsp area=330800

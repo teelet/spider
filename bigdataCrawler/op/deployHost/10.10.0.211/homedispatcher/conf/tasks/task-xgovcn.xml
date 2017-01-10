@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<taskId>task-xgovcn</taskId>
+	<taskName>政府相关网站爬取</taskName>
+
+	<!-- task重启周期，ms -->
+	<taskCycle>3600000</taskCycle>
+
+	<Fetcher>
+		com.panguso.ps.crawler.impl.crawlUnit.fetcher.DefaultFetcher
+	</Fetcher>
+	<Parser>
+		com.panguso.ps.crawler.impl.crawlUnit.preparser.DefaultParser
+	</Parser>
+	<Saver>
+		com.panguso.ps.crawler.impl.crawlUnit.saver.DefaultSaver
+	</Saver>
+	<SeedProvider>
+		com.panguso.ps.crawler.impl.crawlUnit.seedProvider.SeedDBProvider
+	</SeedProvider>
+
+
+	<!--============ 采集策略配置 =============-->
+	<CrawlStrategy>
+		<!-- 采集优先级配置，-1=缓慢，0=普通，1=紧急 -->
+		<priority>0</priority>
+		<!-- 网站编码：可指定具体编码，auto则自动检测 -->
+		<siteEncoding>auto</siteEncoding>
+		<!-- 最大爬取深度从0开始，小于0则不限 -->
+		<maxCrawlDepth>-1</maxCrawlDepth>
+		<!-- 种子生成规则：name指定使用的规则名称，class指定该规则的实现类 -->
+		<seedGenerateRule name="FixListRule"
+			class="com.panguso.ps.crawler.impl.strategy.rule.seed.FixListRule">
+			<!-- 规则参数定义 -->
+			<parameter key="listPath" value="conf/seeds/task-xgovcn.txt" />
+			<parameter key="seedLevel" value="0" />
+		</seedGenerateRule>
+		<!-- 并发控制规则 -->
+		<concurrentControlRule>
+			<!-- 默认每个host最大并发 -->
+			<parameter key="defaultMax" value="3" />
+			<!-- 指定host最大并发的控制文件 -->
+			<parameter key="file" value="conf/concurrent/task-xgovcn.txt" />
+		</concurrentControlRule>
+		<!-- 爬取规则，可多个 -->
+		<crawlRule>
+			<!-- 爬取规则级别：0 -->
+			<parameter key="level" value="0" />
+			<!--调度因子：决定调度器分发种子时，该级别种子比例。0.0~1.0，多个规则的因子和为1.0 -->
+			<parameter key="dispatchFactor" value="1.0" />
+			<!-- 是否存储url的源页面 -->
+			<parameter key="isStorePage" value="true" />
+			<!-- 是否存储fields -->
+			<parameter key="isStoreField" value="false" />
+			<!-- url识别正则，符合此正则的url属于该level -->
+			<parameter key="recognizePattern">
+			    <![CDATA[.*]]>
+			</parameter>
+			<!-- url提取规则，可多个 -->
+			<urlExtractRule>
+				<!-- 规则类别，last=上级规则，this=同级规则，next=下级规则 -->
+				<parameter key="type" value="this" />
+				<!-- url提取正则 -->
+				<parameter key="extractPattern">
+					<![CDATA[<\s*(([aA])|([iI]?[fF][rR][aA][mM][eM]))[^>]* (([hH][rR][eE][fF])|([sS][rR][cC]))\s*=\s*['"]?([^'" >]+)['"]?]]>
+				</parameter>
+				<parameter key="urlPattern" value="[group:7]" />
+				<!-- url提取范围，可只从页面的指定范围内提取url -->
+				<parameter key="extractBegin" value="" />
+				<parameter key="extractEnd" value="" />
+				<!-- 一个页面最大url提取数，0为不限 -->
+				<parameter key="maxExtractNum" value="0" />
+				<!-- 是否限定保持爬取页host -->
+				<parameter key="isHostLimited" value="false" />
+				<processRule name="onMatchProcess"
+					class="com.panguso.ps.crawler.impl.strategy.rule.process.OnMatchProcessRule">
+					<parameter key="matchReg">
+					    <![CDATA[.*]]>
+					</parameter>
+					<parameter key="op" value="replace" />
+					<parameter key="opData1">
+					    <![CDATA[(&trslc=[\d+\.?]+)|(&licensecode=[\d+\.?]+)]]>
+					</parameter>
+					<parameter key="opData2">
+					    <![CDATA[]]>
+					</parameter>
+				</processRule>
+				<!-- 过滤规则，可定义多个，按照添加顺序处理-->
+				<filterRule name="hostFilter"
+					class="com.panguso.ps.crawler.impl.strategy.rule.filter.HostFilter">
+					<parameter key="file" value="conf/filters/url/hostPattern-xgovcn.txt" />
+				</filterRule>
+				<filterRule name="mustNotContain"
+					class="com.panguso.ps.crawler.impl.strategy.rule.filter.NotContainFilter">
+					<parameter key="file" value="conf/filters/url/notContain-xgovcn.txt" />
+				</filterRule>
+			</urlExtractRule>
+		</crawlRule>
+	</CrawlStrategy>
+
+	<!--============ 预解析策略配置 =============-->
+	<ParseStrategy>
+		<!-- Field提取规则定义 -->
+		<FieldRule>
+			<parameter key="name" value="channel" />
+			<!-- Field的提取位置，url=从当前url中提取，html=从当前页面内容提取，sublink=从页面中的子链接页面中提取 -->
+			<parameter key="extractPosition" value="url" />
+			<!-- Field内容提取规则，name指定使用的规则名称，class指定该规则的实现类  -->
+			<contentExtractRule name="regExMatch"
+				class="com.panguso.ps.crawler.impl.strategy.rule.parse.RegExMatchRule">
+				<!-- 该Field是否可在一个url上多次匹配 -->
+				<parameter key="isMultiMatch" value="false" />
+				<parameter key="extractPattern">
+				    <![CDATA[https?://[^/]+/([^/\.]+)]]>
+				</parameter>
+				<parameter key="contentPattern" value="[group:1]" />
+			</contentExtractRule>
+		</FieldRule>
+		<FieldRule>
+			<parameter key="name" value="suffix" />
+			<!-- Field的提取位置，url=从当前url中提取，html=从当前页面内容提取，sublink=从页面中的子链接页面中提取 -->
+			<parameter key="extractPosition" value="url" />
+			<!-- Field内容提取规则，name指定使用的规则名称，class指定该规则的实现类  -->
+			<contentExtractRule name="regExMatch"
+				class="com.panguso.ps.crawler.impl.strategy.rule.parse.RegExMatchRule">
+				<!-- 该Field是否可在一个url上多次匹配 -->
+				<parameter key="isMultiMatch" value="false" />
+				<parameter key="extractPattern">
+				    <![CDATA[.*/[^/\.]+\.([^/\?]+)\??[^/]*$]]>
+				</parameter>
+				<parameter key="contentPattern" value="[group:1]" />
+			</contentExtractRule>
+		</FieldRule>
+	</ParseStrategy>
+
+	<!-- 存储策略配置 -->
+	<SaveStrategy>
+		<!-- 种子库配置 -->
+		<seedDB>
+			<dsname>crawlDS</dsname>
+			<db>xgovcn</db>
+			<table>taskseed</table>
+		</seedDB>
+		<!-- 链接库配置 -->
+		<linkDB>
+			<dsname>crawlDS</dsname>
+			<db>xgovcn</db>
+			<table>linkdb</table>
+		</linkDB>
+		<!-- 网页库配置 -->
+		<pageDB>
+			<dsname>crawlDS</dsname>
+			<db>xgovcn</db>
+			<table>webdb_increment</table>
+		</pageDB>
+		<!-- 存储规则，可定义多个 -->
+		<saveRule name="page"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.PageSaveRule">
+		</saveRule>
+		<saveRule name="outlink"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.OutlinkSaveRule">
+		</saveRule>
+		<saveRule name="link"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.LinkSaveRule">
+		</saveRule>
+	</SaveStrategy>
+
+</Config>

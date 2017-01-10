@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Config>
+
+	<jdbc>
+		<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+		<!-- 数据库连接URL，ip为mysql所在服务器ip，mm是库名 -->
+		<url>jdbc:mysql://10.73.20.42:3306/webgrab?useUnicode=true&amp;characterEncoding=utf8&amp;rewriteBatchedStatements=true
+		</url>
+		<!-- 用户名 -->
+		<username>root</username>
+		<!-- 密码 -->
+		<password>root</password>
+		<!-- 初始线程池大小 -->
+		<initialSize>3</initialSize>
+		<!-- 最大空闲连接数 -->
+		<maxIdle>20</maxIdle>
+		<!-- 最小空闲连接数 -->
+		<minIdle>10</minIdle>
+		<!-- 连接池中最多可空闲maxIdle个连接 -->
+		<maxActive>50</maxActive>
+		<!-- 连接池中连接用完时,新的请求等待时间,毫秒 -->
+		<maxWait>1000</maxWait>
+		<!-- 爬虫数据表名 -->
+		<webdbTable>just_test</webdbTable>
+		<!-- 解析数据表名 -->
+		<parsedbTable>parsedb</parsedbTable>
+		<batchNum>1</batchNum>
+	</jdbc>
+
+	<factoryClass>com.weibo.datasys.parser.product.demo.DemoFactory</factoryClass>
+	<parseDataClass>com.weibo.datasys.parser.product.demo.DemoParseData</parseDataClass>
+	<column>
+		<listpath>conf/demo/columnConfig</listpath>
+	</column>
+	
+	<origin>
+		<listpath>conf/demo/originSiteConfig</listpath>
+	</origin>
+	
+	<filter>
+		<urlsuffix>pdf;wav;wma;wmv;doc;docx;xls;xlsx;ppt;pptx;dot;ceb;jpg;jepg;mpg;tif;tiff;wct;avi;gz;pps;rtf;msi;bmp;flv;dll;exe;gif;vm;txt;png;wps;mp3;mp4</urlsuffix>
+		<titleEqualsBlackListPath>conf/demo/titleEqualsBlackList</titleEqualsBlackListPath>
+	</filter>
+
+	<queue>
+		<readQueueSize>100</readQueueSize>
+		<updateQueueSize>100</updateQueueSize>
+	</queue>
+
+	<thread>
+		<parseType>0</parseType>
+		<readThreadNum>1</readThreadNum>
+		<workThreadNum>1</workThreadNum>
+		<workTimeOut>3</workTimeOut>
+	</thread>
+
+</Config>

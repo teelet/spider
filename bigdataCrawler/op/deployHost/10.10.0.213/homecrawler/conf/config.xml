@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<!-- 任务管理相关配置 -->
+	<taskManager>
+		<!-- 任务数据库配置 -->
+		<taskDB>
+			<enable>true</enable>
+			<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_taskdb_appin</table>
+		</taskDB>
+		<!-- 从数据库刷新任务的间隔，ms -->
+		<refreshTaskInterval>3600000</refreshTaskInterval>
+	</taskManager>
+
+	<dispatcher>
+		<host>127.0.0.1</host>
+		<port>10088</port>
+	</dispatcher>
+
+	<clawler>
+		<port>10087</port>
+	</clawler>
+
+	<seedProvider>
+		<getSeedBatchCount>1000</getSeedBatchCount>
+	</seedProvider>
+
+	<fetcher>
+		<disableDownErroLog>true</disableDownErroLog>
+		<globalMaxConcurrent>1000</globalMaxConcurrent>
+		<method>get</method>
+		<userAgent>
+		<![CDATA[Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML; like Gecko) Version/4.0 Mobile/7A341 Safari/528.16]]>
+		</userAgent>
+		<cookies></cookies>
+		<ip></ip>
+		<host></host>
+		<redirectTimes>2</redirectTimes>
+		<connectTimeout>10000</connectTimeout>
+		<readTimeout>10000</readTimeout>
+	</fetcher>
+
+	<workThreads>
+		<fetcher>1</fetcher>
+		<parser>1</parser>
+		<saver>
+			<base>1</base>
+			<link>1</link>
+			<outlink>1</outlink>
+			<page>1</page>
+		</saver>
+	</workThreads>
+
+	<!-- 多个数据源的配置 -->
+	<dataSources>
+		<dataSource>
+			<!-- 数据源名称，不允许重复 -->
+			<dsname>crawlDS64.172</dsname>
+			<!-- 驱动类名称 -->
+			<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+			<!-- 数据库连接url -->
+			<connectURL>
+				jdbc:mysql://10.10.64.172:3306/?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8
+			</connectURL>
+			<!-- 用户名 -->
+			<username>root</username>
+			<!-- 密码 -->
+			<password>rts_123</password>
+			<!-- 初始线程池大小 -->
+			<initialSize>2</initialSize>
+			<!-- 最大空闲连接数 -->
+			<maxIdle>20</maxIdle>
+			<!-- 最小空闲连接数 -->
+			<minIdle>2</minIdle>
+			<!-- 最大活跃连接数 -->
+			<maxActive>100</maxActive>
+			<!-- 连接池中连接用完时,新的请求等待时间，ms -->
+			<maxWait>10000</maxWait>
+		</dataSource>
+	</dataSources>
+
+</Config>

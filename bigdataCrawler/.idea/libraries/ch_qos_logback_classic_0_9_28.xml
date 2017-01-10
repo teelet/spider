@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="ch.qos.logback.classic-0.9.28">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/ch.qos.logback.classic-0.9.28.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/ch.qos.logback.core-0.9.28.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-collections-3.2.1-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-configuration-1.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-dbcp-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-httpclient-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/commons-pool-1.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/dom4j.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/java-json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/mysql-connector-java-5.1.19.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/org.apache.commons.lang.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/slf4j.api-1.6.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/spymemcached-2.7.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/junit-4.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../bigdataCrawlImage/lib/java-json.jar!/" />
+    </SOURCES>
+  </library>
+</component>

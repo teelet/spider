@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<!-- 任务管理相关配置 -->
+	<taskManager>
+		<!-- 任务数据库配置 -->
+		<taskDB>
+			<enable>true</enable>
+			<dsname>crawlDS</dsname>
+			<db>search</db>
+			<table>crawler_taskdb</table>
+		</taskDB>
+		<!-- 从数据库刷新任务的间隔，ms -->
+		<refreshTaskInterval>3600000</refreshTaskInterval>
+	</taskManager>
+
+	<!-- 种子抓取的最大失败次数 -->
+	<maxFetchFailedTime>3</maxFetchFailedTime>
+
+	<!-- dispatcher通信端口 -->
+	<dispatcher>
+		<port>10088</port>
+	</dispatcher>
+
+	<!-- 种子提供器每次获取种子数量 -->
+	<seedProvider>
+		<getSeedBatchCount>20000</getSeedBatchCount>
+	</seedProvider>
+
+	<!-- 多个数据源的配置 -->
+	<dataSources>
+		<dataSource>
+			<!-- 数据源名称，不允许重复 -->
+			<dsname>crawlDS</dsname>
+			<!-- 驱动类名称 -->
+			<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+			<!-- 数据库连接url -->
+			<connectURL>
+				jdbc:mysql://10.10.66.38:3306/?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8
+			</connectURL>
+			<!-- 用户名 -->
+			<username>root</username>
+			<!-- 密码 -->
+			<password>rts_123</password>
+			<!-- 初始线程池大小 -->
+			<initialSize>2</initialSize>
+			<!-- 最大空闲连接数 -->
+			<maxIdle>20</maxIdle>
+			<!-- 最小空闲连接数 -->
+			<minIdle>2</minIdle>
+			<!-- 最大活跃连接数 -->
+			<maxActive>100</maxActive>
+			<!-- 连接池中连接用完时,新的请求等待时间，ms -->
+			<maxWait>10000</maxWait>
+		</dataSource>
+	</dataSources>
+
+</Config>

@@ -1,0 +1,25 @@
+news.4399.com,id,xiazai
+gl.ali213.net,class,n_show_m
+lol.uuu9.com,class,Introduction
+www.ali213.net,class,n_show_m
+www.eeyy.com,class,ads_tb
+wangyou.pcgames.com.cn,class,pgBtn
+www.3dmgame.com,class,miaoshu
+bns.te5.com,class,twcsm-tb  twcsm-box
+bns.yzz.cn,class,tag
+dnf.te5.com,class,twcsm-tb  twcsm-box
+hs.mofang.com,class,biaoyu
+tl3.tgbus.com,class,font_yh font_24
+tl3.tgbus.com,class,font_12 a_msg
+tymyd.yzz.cn,class,tag
+www.diyiyou.com,class,BAIDU_SSP__wrapper_u2147232_0
+smite.17173.com,class,app17173-code clearfix
+smite.17173.com,class,breadcrumb
+smite.17173.com,class,font-size
+smite.17173.com,class,info
+smite.17173.com,class,summary
+yhzren.265g.com,class,pagebreak
+yhzren.265g.com,class,news_c_fenxiang
+news.4399.com,class,new-ts
+dnf.tgbus.com,class,pager t10
+www.yxdown.com,class,page

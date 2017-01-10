@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<extractPattern>
+		<![CDATA[<\s*(([aA])|([iI]?[fF][rR][aA][mM][eM]))[^>]* (([hH][rR][e
+E][fF])|([sS][rR][cC]))\s*=\s*['"]?([^'" >]*(html?)[^'"\? >]*)['"]?]]>
+	</extractPattern>
+	<extractPattern>
+		<![CDATA[<\s*(([aA])|([iI]?[fF][rR][aA][mM][eM]))[^>]* (([hH][rR][e
+E][fF])|([sS][rR][cC]))\s*=\s*['"]([^'" >]*([0-9]{6}/))['"]]]>
+	</extractPattern>
+	<urlPattern>[group:7]</urlPattern>
+	<testPath>id="text"</testPath>
+	<!-- 种子库的配置 -->
+	<seedDS>crawlDS20.42</seedDS>
+	<seedDB>news</seedDB>
+	<seedTable>parsedb_img</seedTable>
+	<!-- 本地图片存储路径 -->
+	<baseSavePath>/data0/images</baseSavePath>
+	<!-- 线程配置 -->
+	<workThreads>
+		<fetcher>2</fetcher>
+		<saver>1</saver>
+	</workThreads>
+	<!-- 多个数据源的配置 -->
+	<dataSources>
+	<dataSource>
+			<!-- 数据源名称，不允许重复 -->
+			<dsname>crawlDS20.42</dsname>
+			<!-- 驱动类名称 -->
+			<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+			<!-- 数据库连接url -->
+			<connectURL>
+				jdbc:mysql://10.73.20.42:3306/?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8
+			</connectURL>
+			<!-- 用户名 -->
+			<username>root</username>
+			<!-- 密码 -->
+			<password>root</password>
+			<!-- 初始线程池大小 -->
+			<initialSize>2</initialSize>
+			<!-- 最大空闲连接数 -->
+			<maxIdle>20</maxIdle>
+			<!-- 最小空闲连接数 -->
+			<minIdle>2</minIdle>
+			<!-- 最大活跃连接数 -->
+			<maxActive>100</maxActive>
+			<!-- 连接池中连接用完时,新的请求等待时间，ms -->
+			<maxWait>10000</maxWait>
+		</dataSource>
+	</dataSources>
+</Config>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<taskId>task-appin-letv</taskId>
+	<taskName>appin-乐视</taskName>
+
+	<!-- task重启周期，ms -->
+	<taskCycle>14400000</taskCycle>
+
+	<Fetcher>
+		com.panguso.ps.crawler.impl.crawlUnit.fetcher.DefaultFetcher
+	</Fetcher>
+	<Parser>
+		com.panguso.ps.crawler.impl.crawlUnit.preparser.DefaultParser
+	</Parser>
+	<Saver>
+		com.panguso.ps.crawler.impl.crawlUnit.saver.DefaultSaver
+	</Saver>
+	<SeedProvider>
+		com.panguso.ps.crawler.impl.crawlUnit.seedProvider.SeedDBProvider
+	</SeedProvider>
+
+
+	<!--============ 采集策略配置 ============= -->
+	<CrawlStrategy>
+		<!-- 采集优先级配置，-1=缓慢，0=普通，1=紧急 -->
+		<priority>0</priority>
+		<!-- 网站编码：可指定具体编码，auto则自动检测 -->
+		<siteEncoding>utf-8</siteEncoding>
+		<!-- 最大爬取深度，小于等于0则不限 -->
+		<maxCrawlDepth>1</maxCrawlDepth>
+		<!-- 种子生成规则：class指定该规则的实现类 -->
+		<seedGenerateRule name="CommonRule"
+			class="com.panguso.ps.crawler.impl.strategy.rule.seed.CommonRule">
+			<!-- 规则参数定义 -->
+			<parameter key="dsname" value="crawlDS64.172" />
+			<parameter key="db" value="app" />
+			<parameter key="table" value="crawler_seedGenerate" />
+		</seedGenerateRule>
+		<!-- 并发控制规则 -->
+		<concurrentControlRule>
+			<!-- 默认每个host最大并发 -->
+			<parameter key="defaultMax" value="10" />
+			<!-- 指定host最大并发的控制文件 -->
+			<parameter key="file" value="conf/concurrent/task-app.txt" />
+		</concurrentControlRule>
+		<!-- 爬取规则，可多个 -->
+		<crawlRule>
+			<!-- 爬取规则级别 -->
+			<parameter key="level" value="0" />
+			<!--调度因子：决定调度器分发种子时，该级别种子比例。0.0~1.0，多个规则的因子和为1.0 -->
+			<parameter key="dispatchFactor" value="0.5" />
+			<!-- 是否存储url的源页面 -->
+			<parameter key="isStorePage" value="false" />
+			<!-- 是否存储fields -->
+			<parameter key="isStoreField" value="false" />
+			<!-- url识别正则，符合此正则的url属于该level -->
+			<parameter key="recognizePattern">
+			    <![CDATA[.*vlist.php.*]]>
+			</parameter>
+			<!-- url提取规则，可多个 -->
+			<urlExtractRule>
+				<!-- 规则类别，this=同级规则，next=下级规则 -->
+				<parameter key="type" value="next" />
+				<!-- url提取正则 -->
+				<parameter key="extractPattern">
+					<![CDATA[<\s*(([aA])|([iI]?[fF][rR][aA][mM][eM]))[^>]* (([hH][rR][eE][fF])|([sS][rR][cC]))\s*=\s*['"]?([^'" >]*(play.php\?id=(\d+)&type=2)[^'"\? >]*)['"]?]]>
+				</parameter>
+				<parameter key="urlPattern" value="[group:7]" />
+				<!-- url提取范围，可只从页面的指定范围内提取url -->
+				<parameter key="extractBegin" value="" />
+				<parameter key="extractEnd" value="" />
+				<!-- 一个页面最大url提取数，0为不限 -->
+				<parameter key="maxExtractNum" value="0" />
+				<!-- 是否限定站内host -->
+				<parameter key="isHostLimited" value="false" />
+				<!-- 过滤规则，可定义多个，按照添加顺序处理 -->
+				<filterRule name="mustNotContain"
+					class="com.panguso.ps.crawler.impl.strategy.rule.filter.NotContainFilter">
+					<parameter key="file"
+						value="conf/filters/url/notContain-app.txt" />
+				</filterRule>
+			</urlExtractRule>
+		</crawlRule>
+		<crawlRule>
+			<!-- 爬取规则级别 -->
+			<parameter key="level" value="1" />
+			<!--调度因子：决定调度器分发种子时，该级别种子比例。0.0~1.0，多个规则的因子和为1.0 -->
+			<parameter key="dispatchFactor" value="0.5" />
+			<!-- 是否存储url的源页面 -->
+			<parameter key="isStorePage" value="true" />
+			<!-- 是否存储fields -->
+			<parameter key="isStoreField" value="false" />
+			<!-- url识别正则，符合此正则的url属于该level -->
+			<parameter key="recognizePattern">
+			    <![CDATA[.*play.php.*]]>
+			</parameter>
+		</crawlRule>
+	</CrawlStrategy>
+
+	<!--============ 预解析策略配置 ============= -->
+	<ParseStrategy>
+
+	</ParseStrategy>
+
+	<!-- 存储策略配置 -->
+	<SaveStrategy>
+		<!-- 种子库配置 -->
+		<seedDB>
+			<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_taskseed_letv</table>
+		</seedDB>
+		<!-- 链接库配置 -->
+		<linkDB>
+				<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_linkdb_letv</table>
+		</linkDB>
+		<!-- 网页库配置 -->
+		<pageDB>
+				<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_webdb_letv</table>
+		</pageDB>
+		<!-- 存储规则，可定义多个 -->
+		<saveRule name="page"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.PageSaveRule">
+		</saveRule>
+		<saveRule name="outlink"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.OutlinkSaveRule">
+		</saveRule>
+		<saveRule name="link"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.LinkSaveRule">
+		</saveRule>
+	</SaveStrategy>
+
+</Config>

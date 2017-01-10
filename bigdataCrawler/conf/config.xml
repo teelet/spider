@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<!-- 多个数据源的配置 -->
+	<dataSources>
+	<dataSource>
+			<!-- 数据源名称，不允许重复 -->
+			<dsname>crawlDS66.38</dsname>
+			<!-- 驱动类名称 -->
+			<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+			<!-- 数据库连接url -->
+			<connectURL>
+				jdbc:mysql://10.10.66.38:3306/?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8
+			</connectURL>
+			<!-- 用户名 -->
+			<username>root</username>
+			<!-- 密码 -->
+			<password>rts_123</password>
+			<!-- 初始线程池大小 -->
+			<initialSize>2</initialSize>
+			<!-- 最大空闲连接数 -->
+			<maxIdle>20</maxIdle>
+			<!-- 最小空闲连接数 -->
+			<minIdle>2</minIdle>
+			<!-- 最大活跃连接数 -->
+			<maxActive>100</maxActive>
+			<!-- 连接池中连接用完时,新的请求等待时间，ms -->
+			<maxWait>10000</maxWait>
+		</dataSource>
+		<dataSource>
+			<!-- 数据源名称，不允许重复-->
+			<dsname>crawlDS66.35</dsname>
+			<!-- 驱动类名称 -->
+			<driverClassName>com.mysql.jdbc.Driver</driverClassName>
+			<!-- 数据库连接url -->
+			<connectURL>
+				jdbc:mysql://10.10.66.35:3306/?rewriteBatchedStatements=true&amp;useUnicode=true&amp;characterEncoding=utf8
+			</connectURL>
+			<!-- 用户名 -->
+			<username>root</username>
+			<!-- 密码 -->
+			<password>rts_123</password>
+			<!-- 初始线程池大小 -->
+			<initialSize>2</initialSize>
+			<!-- 最大空闲连接数 -->
+			<maxIdle>20</maxIdle>
+			<!-- 最小空闲连接数 -->
+			<minIdle>2</minIdle>
+			<!-- 最大活跃连接数 -->
+			<maxActive>100</maxActive>
+			<!-- 连接池中连接用完时,新的请求等待时间，ms -->
+			<maxWait>5000</maxWait>
+		</dataSource>
+	</dataSources>
+
+</Config>

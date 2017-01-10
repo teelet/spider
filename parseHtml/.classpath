@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/jars/jars/ch.qos.logback.classic-0.9.28.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/ch.qos.logback.core-0.9.28.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/chardet.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-beanutils-core-1.8.0.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-collections-3.2.1-1.0.0.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-configuration-1.7.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-dbcp-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-digester-1.8.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/commons-pool-1.5.4.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/dom4j.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/java-json.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/jaxen-1.1.2.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/junit-4.8.2.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/mysql-connector-java-5.1.19.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/nekohtml-1.9.9.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/org.apache.commons.io.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/poi-3.9.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/poi-scratchpad-3.9.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/slf4j.api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/spymemcached-2.7.3.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/xerces-2_6_2.jar"/>
+	<classpathentry kind="lib" path="D:/jars/jars/javac-1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

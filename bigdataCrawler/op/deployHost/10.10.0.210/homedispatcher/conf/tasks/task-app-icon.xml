@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<taskId>task-app-icon</taskId>
+	<taskName>应用图标下载任务</taskName>
+
+	<!-- task刷新周期，ms -->
+	<taskCycle>86400000</taskCycle>
+
+	<Fetcher>
+		com.panguso.ps.crawler.impl.crawlUnit.fetcher.DefaultFetcher
+	</Fetcher>
+	<Parser>
+		com.panguso.ps.crawler.impl.crawlUnit.preparser.DefaultParser
+		<parameter key="defaultFile" value="conf/default.png" />
+	</Parser>
+	<Saver>
+		com.panguso.ps.crawler.impl.crawlUnit.saver.DefaultSaver
+	</Saver>
+	<SeedProvider>
+		com.panguso.ps.crawler.impl.crawlUnit.seedProvider.SeedDBProvider
+	</SeedProvider>
+	<Deduplicator>
+		com.panguso.ps.crawler.impl.crawlUnit.deduplicator.LocalMD5PathBaseDeduplicator
+		<parameter key="baseDir" value="/application/search/icon_deduplicate" />
+		<parameter key="subDirCount" value="2" />
+		<parameter key="subDirLength" value="2" />
+		<parameter key="extendIdFieldName" value="id" />
+	</Deduplicator>
+
+
+	<!--============ 采集策略配置 ============= -->
+	<CrawlStrategy>
+		<!-- 采集优先级配置，-1=缓慢，0=普通，1=紧急 -->
+		<priority></priority>
+		<!-- 网站编码：可指定具体编码，auto则自动检测 -->
+		<siteEncoding>auto</siteEncoding>
+		<!-- 最大爬取深度，小于等于0则不限 -->
+		<maxCrawlDepth>0</maxCrawlDepth>
+		<!-- 种子生成规则：name指定使用的规则名称，class指定该规则的实现类 -->
+		<seedGenerateRule name="FromDataSourceRule"
+			class="com.panguso.ps.crawler.impl.strategy.rule.seed.FromDataSourceRule">
+			<parameter key="dsname" value="crawlDS64.172" />
+			<parameter key="db" value="app" />
+			<parameter key="tables"
+				value="index_data_android_game;index_data_android_software" />
+			<parameter key="urlFieldName" value="src_icon" />
+			<parameter key="extendFieldNames" value="id" />
+		</seedGenerateRule>
+		<!-- 并发控制规则 -->
+		<concurrentControlRule>
+			<!-- 默认每个host最大并发 -->
+			<parameter key="defaultMax" value="10" />
+			<!-- 指定host最大并发的控制文件 -->
+			<parameter key="file" value="conf/concurrent/task-app.txt" />
+		</concurrentControlRule>
+		<!-- 爬取规则，可多个 -->
+		<crawlRule>
+			<!-- 爬取规则级别 -->
+			<parameter key="level" value="0" />
+			<!--调度因子：决定调度器分发种子时，该级别种子比例。0.0~1.0，多个规则的因子和为1.0 -->
+			<parameter key="dispatchFactor" value="1.0" />
+			<!-- 是否存储url的源页面 -->
+			<parameter key="isStorePage" value="true" />
+			<!-- 是否存储fields -->
+			<parameter key="isStoreField" value="true" />
+			<!-- url识别正则，符合此正则的url属于该level -->
+			<parameter key="recognizePattern">
+			    <![CDATA[.*]]>
+			</parameter>
+		</crawlRule>
+	</CrawlStrategy>
+
+	<!--============ 预解析策略配置 ============= -->
+	<ParseStrategy>
+		<!-- Field提取规则定义 -->
+		<FieldRule>
+			<parameter key="name" value="icon" />
+			<!-- Field的提取位置，SeedData=从SeedData对象提取，url=从当前url中提取，html=从当前页面内容提取，sublink=从页面中的子链接页面中提取 -->
+			<parameter key="extractPosition" value="SeedData" />
+			<!-- Field内容提取规则，name指定使用的规则名称，class指定该规则的实现类 -->
+			<contentExtractRule name="commonDataParseRule"
+				class="com.panguso.ps.crawler.impl.strategy.rule.parse.CommonDataParseRule">
+				<!-- 该Field是否可在一个url上多次匹配 -->
+				<parameter key="isMultiMatch" value="false" />
+				<parameter key="targetField:id" value="extendField:id" />
+				<parameter key="targetField:path" value="extendField:id" />
+			</contentExtractRule>
+			<processRule name="md5FilePathProcess"
+				class="com.panguso.ps.crawler.impl.strategy.rule.process.MD5FilePathProcessRule">
+				<parameter key="processFields" value="path" />
+				<parameter key="subDirCount" value="2" />
+				<parameter key="subDirLength" value="2" />
+			</processRule>
+		</FieldRule>
+	</ParseStrategy>
+
+	<!-- 存储策略配置 -->
+	<SaveStrategy>
+		<!-- 种子库配置 -->
+		<seedDB>
+			<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_taskseed_icon</table>
+		</seedDB>
+		<!-- 链接库配置 -->
+		<linkDB>
+			<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_linkdb_icon</table>
+		</linkDB>
+		<!-- 网页库配置 -->
+		<pageDB>
+			<dsname>crawlDS64.172</dsname>
+			<db>app</db>
+			<table>crawler_webdb_icon</table>
+		</pageDB>
+		<!-- 存储规则，可定义多个 -->
+		<saveRule name="page"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.PageToFileSaveRule">
+			<parameter key="baseDir" value="/application/search/icon" />
+			<parameter key="subDirCount" value="2" />
+			<parameter key="subDirLength" value="2" />
+		</saveRule>
+		<saveRule name="link"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.LinkSaveRule">
+		</saveRule>
+	</SaveStrategy>
+
+
+</Config>

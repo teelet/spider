@@ -1,0 +1,6 @@
+news.sina.com.cn
+roll.news.sina.com.cn
+finance.sina.com.cn
+roll.finance.sina.com.cn
+mil.news.sina.com.cn
+roll.mil.news.sina.com.cn

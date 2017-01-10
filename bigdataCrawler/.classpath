@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/commons-dbcp-1.4.jar" sourcepath="/Users/kuizi/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/junit-4.8.2.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/ch.qos.logback.classic-0.9.28.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/ch.qos.logback.core-0.9.28.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/commons-collections-3.2.1-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/commons-pool-1.4.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/java-json.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/spymemcached-2.7.3.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/commons-configuration-1.7.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/dom4j.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/org.apache.commons.lang.jar"/>
+	<classpathentry kind="lib" path="/Users/kuizi/Documents/jars/slf4j.api-1.6.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

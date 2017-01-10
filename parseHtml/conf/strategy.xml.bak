@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<ParseStrategy>
+	<startPosition>conf/startPosition.txt</startPosition>
+	<invalidElement>conf/invalidElements.txt</invalidElement>
+	<blockRule>
+		<hostPair>
+			<host>default</host>
+			<valid>div,p</valid>
+			<invalid>script,style,textarea,option,iframe,marquee,comment,select</invalid>
+			<preserved>html,head,body,meta,title</preserved>
+			<link>a</link>
+			<img>img</img>
+			<font>strong,font,span,center</font>
+		</hostPair>
+	</blockRule>
+	<imgRule>
+		<hostPair>
+			<host>default</host>
+			<filterRoot>a</filterRoot>
+			<filterPSibling>a</filterPSibling>
+			<filterNSibling>a</filterNSibling>
+		</hostPair>
+		<hostPair>
+			<host>news.4399.com</host>
+			<filterRoot>a,td,tr</filterRoot>
+			<filterPSibling>a</filterPSibling>
+			<filterNSibling>a</filterNSibling>
+		</hostPair>
+	</imgRule>
+	<fontRule>
+		<hostPair>
+			<host>default</host>
+			<filterRoot>a</filterRoot>
+		</hostPair>
+		<hostPair>
+			<host>news.4399.com</host>
+			<filterRoot>td,tr</filterRoot>
+		</hostPair>
+	</fontRule>
+</ParseStrategy>

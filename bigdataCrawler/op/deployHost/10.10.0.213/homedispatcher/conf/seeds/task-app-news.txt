@@ -1,0 +1,14 @@
+http://www.xinhuanet.com/fortune/ cat=财经
+http://www.xinhuanet.com/auto/ cat=汽车
+http://www.xinhuanet.com/house/ cat=房产
+http://www.news.cn/travel/ cat=旅游
+http://www.ggg.cn/news/ cat=游戏
+http://www.news.cn/tech/ cat=科技
+http://www.news.cn/local/dfxwzx.htm cat=各地要闻
+http://www.news.cn/food/ cat=食品
+http://www.xinhuanet.com/politics/ cat=时政
+http://www.xinhuanet.com/world/ cat=国际
+http://www.xinhuanet.com/mil/ cat=军事
+http://www.news.cn/local/msbt.htm cat=社会民生
+http://www.news.cn/local/hbst.htm cat=环保生态
+http://news.sohu.com/news_flash.shtml cat=最新新闻

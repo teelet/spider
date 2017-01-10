@@ -1,0 +1,339 @@
+package com.weibo.datasys.parser.html.data;
+
+import com.weibo.datasys.common.util.StringUtils;
+import com.weibo.datasys.parser.conf.ParseConfig;
+import com.weibo.datasys.parser.html.antispam.FilterTag;
+
+import java.util.ArrayList;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+public class BlockInfo {
+	private static final Logger LOG = LoggerFactory.getLogger(BlockInfo.class);
+	private BlockInfo parentBlockInfo = null;
+	private ArrayList<BlockInfo> chidrenBlockList = new ArrayList<BlockInfo>();
+	private Node node = null;
+	private String nodeName = "";
+	private short nodeType = 0;
+	private NamedNodeMap attrs = null;
+	private String allText = "";
+	private String anchorText = "";
+	private String noAnchorText = "";
+	private boolean isSpecialTag = false;
+	private double score = 100.0D;
+	private int distance = 0;
+	private boolean isMainTextBlock = false;
+	private String imgUrl = "";
+	private String uuid = "";
+
+	private boolean isFormatTag = false;
+	private boolean isFormatTag4Img = false;
+
+	public boolean isFormatTag4Img() {
+		return isFormatTag4Img;
+	}
+
+	public void setFormatTag4Img(boolean isFormatTag4Img) {
+		this.isFormatTag4Img = isFormatTag4Img;
+	}
+
+	public boolean isFormatTag() {
+		return isFormatTag;
+	}
+
+	public void setFormatTag(boolean isFormatTag) {
+		this.isFormatTag = isFormatTag;
+	}
+
+	public String getUuid() {
+		return this.uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	private boolean isImgTag = false;
+	private boolean isImgNode = false;
+
+	public boolean isImgNode() {
+		return this.isImgNode;
+	}
+
+	public void setImgNode(boolean isImgNode) {
+		this.isImgNode = isImgNode;
+	}
+
+	public boolean isImgTag() {
+		return this.isImgTag;
+	}
+
+	public void setImgTag(boolean isImgTag) {
+		this.isImgTag = isImgTag;
+	}
+
+	public String getImgUrl() {
+		return this.imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public short getNodeType() {
+		return nodeType;
+	}
+
+	public void setNodeType(short nodeType) {
+		this.nodeType = nodeType;
+	}
+
+	public BlockInfo(Node node) {
+		if (node != null) {
+			this.node = node;
+			this.nodeName = node.getNodeName();
+			this.nodeType = node.getNodeType();
+			this.attrs = node.getAttributes();
+		}
+	}
+
+	public void setInfo2(ParseConfig parseConfig) {
+		StringBuffer tagBuffer = new StringBuffer();
+		StringBuffer anchorBuffer = new StringBuffer();
+		StringBuffer noAnchBuffer = new StringBuffer();
+
+		String mainText = parseConfig.getMainTextStart();
+		if ((mainText == null) || mainText == "") {
+			LOG.warn("no set host content name mapping");
+		}
+
+		if (this.chidrenBlockList != null) {
+			for (int i = 0; i < this.chidrenBlockList.size(); i++) {
+				BlockInfo curBlockInfo = (BlockInfo) this.chidrenBlockList.get(i);
+				Node node = curBlockInfo != null ? curBlockInfo.getNode() : null;
+				if (node != null) {
+					if (node.getNodeType() == 3) {
+						tagBuffer.append(node.getNodeValue());
+						Node parentNode = node.getParentNode();
+						if ((FilterTag.isLinkTag(parentNode))
+								|| ((parentNode != null) && (FilterTag.isLinkTag(parentNode.getParentNode())))) {
+							anchorBuffer.append(node.getNodeValue());
+						} else {
+							noAnchBuffer.append(node.getNodeValue());
+						}
+					} else {
+
+						if (FilterTag.isPTag(node.getNodeName())) {
+							this.isSpecialTag = true;
+						}
+
+						if (FilterTag.isimgTag(node.getNodeName())) {
+							NamedNodeMap nn = node.getAttributes();
+							int len = nn.getLength();
+							for (int j = 0; j < len; j++) {
+								Node n = nn.item(j);
+								if ("src".equalsIgnoreCase(n.getNodeName())) {
+									this.imgUrl = n.getNodeValue();
+
+									if (FilterTag.isContentBlock(node, mainText)) {
+										if (!(FilterTag.isImgRootFilterTag(node)))
+											this.isImgTag = true;
+									}
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (FilterTag.HasOnly1ImgChild(this.chidrenBlockList)) {
+			BlockInfo curBlockInfo = (BlockInfo) this.chidrenBlockList.get(0);
+			Node node = curBlockInfo != null ? curBlockInfo.getNode() : null;
+			if (FilterTag.isContentBlock(node, mainText)) {
+				this.isImgTag = true;
+			}
+			anchorBuffer.append(curBlockInfo.getAnchorText());
+			noAnchBuffer.append(curBlockInfo.getNoAnchorText());
+			tagBuffer.append(curBlockInfo.getAllText());
+		}
+
+		if (this.node.getNodeType() == 3) {
+			tagBuffer.append(this.node.getNodeValue());
+		}
+
+		if (FilterTag.isimgTag(this.node.getNodeName())) {
+			NamedNodeMap nn = this.node.getAttributes();
+			int len = nn.getLength();
+			for (int j = 0; j < len; j++) {
+				Node n = nn.item(j);
+				if ("src".equalsIgnoreCase(n.getNodeName())) {
+					this.imgUrl = n.getNodeValue();
+					this.uuid = UUID.randomUUID().toString();
+					if (FilterTag.isContentBlock(this.node, mainText)) {
+
+						if (!(FilterTag.isImgRootFilterTag(node))) {
+							this.isImgTag = true;
+							String localurl = change2LocalUrl(this.imgUrl, this.uuid);
+							if (!"".equals(localurl)) {
+								tagBuffer.append(localurl);
+							}
+							if ((this.chidrenBlockList != null) && (this.chidrenBlockList.size() != 0)) {
+								break;
+							}
+							this.isImgNode = true;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		if (FilterTag.isSpecialFormatNode(this.node.getNodeName())) {
+			if (!(FilterTag.HasRootFilter4Format(this.node))) {
+				if (FilterTag.isContentBlock(this.node, mainText)) {
+					this.isFormatTag = true;
+
+					// 如果 this.node 的上一个兄弟节点是 img的话 该特使格式的文本内容需要居中
+					Node sibling = this.node.getPreviousSibling();
+					if (sibling != null) {
+						// FilterTag.reload(parseConfig, FilterTag.IMG_NODES);
+						if (FilterTag.isimgTag(sibling.getNodeName())) {
+							this.isFormatTag4Img = true;
+						}
+					}
+				}
+			}
+		}
+
+		this.allText = tagBuffer.toString();
+		this.anchorText = anchorBuffer.toString();
+		this.noAnchorText = noAnchBuffer.toString();
+
+	}
+
+	public void addChildrenBlock(BlockInfo blockInfo) {
+		this.chidrenBlockList.add(blockInfo);
+	}
+
+	public Node getAttrNode(String name) {
+		if (name == null) {
+			return null;
+		}
+		if ((this.attrs == null) && (this.node != null)) {
+			this.attrs = this.node.getAttributes();
+		}
+		if (this.attrs != null) {
+			return this.attrs.getNamedItem(name);
+		}
+		return null;
+	}
+
+	public String getAttrNodeValue(String name) {
+		Node attr = getAttrNode(name);
+		String result = null;
+		if (attr != null) {
+			result = attr.getNodeValue();
+		}
+		return result == null ? "" : result;
+	}
+
+	public BlockInfo getParentBlockInfo() {
+		return this.parentBlockInfo;
+	}
+
+	public void setParentBlock(BlockInfo parentBlockInfo) {
+		this.parentBlockInfo = parentBlockInfo;
+	}
+
+	public ArrayList<BlockInfo> getChidrenBlockList() {
+		return this.chidrenBlockList;
+	}
+
+	public Node getNode() {
+		return this.node;
+	}
+
+	public void setNode(Node node) {
+		this.node = node;
+	}
+
+	public String getNodeName() {
+		return this.nodeName;
+	}
+
+	public String getAllText() {
+		return this.allText == null ? "" : this.allText;
+	}
+
+	public void setAllText(String allText) {
+		this.allText = allText;
+	}
+
+	public String getAnchorText() {
+		return this.anchorText == null ? "" : this.anchorText;
+	}
+
+	public void setAnchorText(String anchorText) {
+		this.anchorText = anchorText;
+	}
+
+	public boolean isSpecialTag() {
+		return this.isSpecialTag;
+	}
+
+	public void setSpecialTag(boolean isSpecialTag) {
+		this.isSpecialTag = isSpecialTag;
+	}
+
+	public boolean isMainTextBlock() {
+		return this.isMainTextBlock;
+	}
+
+	public void setMainTextBlock(boolean isMainTextBlock) {
+		this.isMainTextBlock = isMainTextBlock;
+	}
+
+	public double getScore() {
+		return this.score;
+	}
+
+	public void setScore(double score) {
+		this.score = score;
+	}
+
+	public int getDistance() {
+		return this.distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public String getNoAnchorText() {
+		return this.noAnchorText;
+	}
+
+	public void setNoAnchorText(String noAnchorText) {
+		this.noAnchorText = noAnchorText;
+	}
+
+	public String change2LocalUrl(String imgUrl, String uuid) {
+		String suffix = imgUrl.substring(imgUrl.lastIndexOf("."));
+
+		int subDirCount = 2;
+		int subDirLength = 10;
+
+		String relativePath = StringUtils.md5ToPath(StringUtils.getMD5Code(imgUrl.trim()), subDirCount, subDirLength);
+
+		relativePath = relativePath + "/" + uuid + suffix;
+		relativePath = "http://10.73.20.41:8080/Parsedb/images/" + relativePath;
+
+		return relativePath;
+	}
+
+}

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+
+	<taskId>task-news-img</taskId>
+	<taskName>新闻图片下载任务</taskName>
+
+	<!-- task刷新周期，ms -->
+	<taskCycle>3600000</taskCycle>
+
+	<Fetcher>
+		com.panguso.ps.crawler.impl.crawlUnit.fetcher.DefaultFetcher
+	</Fetcher>
+	<Parser>
+		com.panguso.ps.crawler.impl.crawlUnit.preparser.DefaultParser
+		<parameter key="defaultFile" value="conf/default.png" />
+		<parameter key="acceptContentType" value="image" />
+	</Parser>
+	<Saver>
+		com.panguso.ps.crawler.impl.crawlUnit.saver.DefaultSaver
+	</Saver>
+	<SeedProvider>
+		com.panguso.ps.crawler.impl.crawlUnit.seedProvider.SeedDBProvider
+	</SeedProvider>
+	<Deduplicator>
+		com.panguso.ps.crawler.impl.crawlUnit.deduplicator.LocalMD5PathBaseDeduplicator
+		<parameter key="baseDir" value="/data0/search/img_deduplicate" />
+		<parameter key="subDirCount" value="2" />
+		<parameter key="subDirLength" value="2" />
+		<parameter key="extendIdFieldName" value="id" />
+	</Deduplicator>
+
+
+	<!--============ 采集策略配置 ============= -->
+	<CrawlStrategy>
+		<!-- 采集优先级配置，-1=缓慢，0=普通，1=紧急 -->
+		<priority></priority>
+		<!-- 网站编码：可指定具体编码，auto则自动检测 -->
+		<siteEncoding>auto</siteEncoding>
+		<!-- 最大爬取深度，小于等于0则不限 -->
+		<maxCrawlDepth>0</maxCrawlDepth>
+		<!-- 种子生成规则：name指定使用的规则名称，class指定该规则的实现类 -->
+		<seedGenerateRule name="FromDataSourceRule"
+			class="com.panguso.ps.crawler.impl.strategy.rule.seed.FromDataSourceRule">
+			<parameter key="dsname" value="crawlDS" />
+			<parameter key="db" value="search" />
+			<parameter key="selectSQLs"
+				value="select id,imgurl from search.parse_info where imgurl!='' and imgurl is not null; " />
+			<parameter key="urlFieldName" value="imgurl" />
+			<parameter key="extendFieldNames" value="id" />
+		</seedGenerateRule>
+		<!-- 并发控制规则 -->
+		<concurrentControlRule>
+			<!-- 默认每个host最大并发 -->
+			<parameter key="defaultMax" value="5" />
+			<!-- 指定host最大并发的控制文件 -->
+			<parameter key="file" value="conf/concurrent/task-news.txt" />
+		</concurrentControlRule>
+		<!-- 爬取规则，可多个 -->
+		<crawlRule>
+			<!-- 爬取规则级别 -->
+			<parameter key="level" value="0" />
+			<!--调度因子：决定调度器分发种子时，该级别种子比例。0.0~1.0，多个规则的因子和为1.0 -->
+			<parameter key="dispatchFactor" value="1.0" />
+			<!-- 是否存储url的源页面 -->
+			<parameter key="isStorePage" value="true" />
+			<!-- 是否存储fields -->
+			<parameter key="isStoreField" value="true" />
+			<!-- url识别正则，符合此正则的url属于该level -->
+			<parameter key="recognizePattern">
+			    <![CDATA[.*]]>
+			</parameter>
+		</crawlRule>
+	</CrawlStrategy>
+
+	<!--============ 预解析策略配置 ============= -->
+	<ParseStrategy>
+	</ParseStrategy>
+
+	<!-- 存储策略配置 -->
+	<SaveStrategy>
+		<!-- 种子库配置 -->
+		<seedDB>
+			<dsname>crawlDS</dsname>
+			<db>search</db>
+			<table>crawler_taskseed_img</table>
+		</seedDB>
+		<!-- 链接库配置 -->
+		<linkDB>
+			<dsname>crawlDS</dsname>
+			<db>search</db>
+			<table>crawler_linkdb_img</table>
+		</linkDB>
+		<!-- 网页库配置 -->
+		<pageDB>
+			<dsname>crawlDS</dsname>
+			<db>search</db>
+			<table>crawler_webdb_img</table>
+		</pageDB>
+		<!-- 存储规则，可定义多个 -->
+		<saveRule name="page"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.PageToFileSaveRule">
+			<parameter key="baseDir" value="/data0/search/img" />
+			<parameter key="subDirCount" value="2" />
+			<parameter key="subDirLength" value="2" />
+		</saveRule>
+		<saveRule name="link"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.LinkSaveRule">
+		</saveRule>
+		<saveRule name="imgurl"
+			class="com.panguso.ps.crawler.impl.strategy.rule.save.ImgUrlSaveRule">
+			<parameter key="dsname" value="crawlDS" />
+			<parameter key="db" value="search" />
+			<parameter key="table" value="parse_info" />
+			<parameter key="subDirCount" value="2" />
+			<parameter key="subDirLength" value="2" />
+		</saveRule>
+	</SaveStrategy>
+
+
+</Config>

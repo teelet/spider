@@ -1,0 +1,4 @@
+http://finance.sina.com.cn/fund/
+http://finance.sina.com.cn/stock/
+http://news.sina.com.cn/society/
+http://mil.news.sina.com.cn/
